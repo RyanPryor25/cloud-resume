@@ -1,0 +1,21 @@
+name: Deploy to Azure
+on:
+  push:
+    branches: [ main ]
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Deploy Website
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: cloudresumestorage123
+          azure-credentials: ${{ secrets.AZURE_CREDENTIALS }}
+          slot-name: production
+      - name: Deploy Function
+        uses: azure/functions@v1
+        with:
+          app-name: resume-function-123
+          package: ./resume-function
+          azure-credentials: ${{ secrets.AZURE_CREDENTIALS }}
